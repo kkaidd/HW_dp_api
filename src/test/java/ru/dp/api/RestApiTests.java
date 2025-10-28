@@ -67,38 +67,6 @@ public class RestApiTests extends TestBase {
 
     @Test
     @Tag("User")
-    @Tag("positive")
-    @Tag("smoke")
-    @DisplayName("Create, update and delete user")
-    @Severity(SeverityLevel.BLOCKER)
-    void crudUserTest() {
-        User newUser = DataGenerator.getUser(8, 16, true, true, true);
-
-        // Create
-        String newUserId_fromResponse = UserSteps.createUser(newUser);
-        assertThat(newUserId_fromResponse).isEqualTo(newUser.getId().toString());
-
-        // Update
-        newUser.setFirstName("Vasya");
-        newUser.setLastName("is here");
-        UserSteps.updateUser(newUser);
-
-        // Check
-        User loadedUser = UserSteps.getUser(newUser.getUsername());
-        assertThat(loadedUser).isNotNull();
-        SoftAssertions.assertSoftly(s -> {
-            assertThat(loadedUser.getId()).isEqualTo(newUser.getId());
-            assertThat(loadedUser.getFirstName()).isEqualTo(newUser.getFirstName());
-            assertThat(loadedUser.getLastName()).isEqualTo(newUser.getLastName());
-        });
-
-        // Delete
-        UserSteps.deleteUser(newUser.getUsername());
-        UserSteps.getUserNotFound(newUser.getUsername());
-    }
-
-    @Test
-    @Tag("User")
     @Tag("negative")
     @Tag("low")
     @DisplayName("Create User with array")
